@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #calculator { width: 200px; margin: 100px auto; }
+        input[type="text"] { width: 100%; font-size: 24px; text-align: right; }
+        button { width: 50px; height: 50px; font-size: 18px; }
+        .operator { background-color: #f0ad4e; }
+        .operator:hover { background-color: #ec971f; }
+        .digit:hover { background-color: #d9534f; }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="display" disabled>
+        <br>
+        <button class="digit" onclick="appendToDisplay('7')">7</button>
+        <button class="digit" onclick="appendToDisplay('8')">8</button>
+        <button class="digit" onclick="appendToDisplay('9')">9</button>
+        <button class="operator" onclick="setOperation('/')">/</button>
+        <br>
+        <button class="digit" onclick="appendToDisplay('4')">4</button>
+        <button class="digit" onclick="appendToDisplay('5')">5</button>
+        <button class="digit" onclick="appendToDisplay('6')">6</button>
+        <button class="operator" onclick="setOperation('*')">*</button>
+        <br>
+        <button class="digit" onclick="appendToDisplay('1')">1</button>
+        <button class="digit" onclick="appendToDisplay('2')">2</button>
+        <button class="digit" onclick="appendToDisplay('3')">3</button>
+        <button class="operator" onclick="setOperation('-')">-</button>
+        <br>
+        <button class="digit" onclick="appendToDisplay('0')">0</button>
+        <button onclick="calculateResult()">=</button>
+        <button class="operator" onclick="setOperation('+')">+</button>
+        <br>
+        <button onclick="clearDisplay()">C</button>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        let operation = '';
+        let previousValue = '';
+
+        function appendToDisplay(number) {
+            display.value += number;
+        }
+
+        function setOperation(op) {
+            if (display.value === '') return;
+            if (previousValue !== '') {
+                calculateResult();
+            }
+            operation = op;
+            previousValue = display.value;
+            display.value = '';
+        }
+
+        function calculateResult() {
+            let result;
+            const currentValue = display.value;
+            switch (operation) {
+                case '+':
+                    result = parseFloat(previousValue) + parseFloat(currentValue);
+                    break;
+                case '-':
+                    result = parseFloat(previousValue) - parseFloat(currentValue);
+                    break;
+                case '*':
+                    result = parseFloat(previousValue) * parseFloat(currentValue);
+                    break;
+                case '/':
+                    result = parseFloat(previousValue) / parseFloat(currentValue);
+                    break;
+                default:
+                    return;
+            }
+            display.value = result;
+            operation = '';
+            previousValue = '';
+        }
+
+        function clearDisplay() {
+            display.value = '';
+            operation = '';
+            previousValue = '';
+        }
+    </script>
+</body>
+</html>
